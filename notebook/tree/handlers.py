@@ -6,11 +6,13 @@
 from tornado import web
 from ..base.handlers import IPythonHandler, path_regex
 from ..utils import url_path_join, url_escape
+import logging
 
 
 class TreeHandler(IPythonHandler):
     """Render the tree view, listing notebooks, etc."""
 
+    logging.basicConfig(level=logging.DEBUG)
     def generate_breadcrumbs(self, path):
         breadcrumbs = [(url_path_join(self.base_url, 'tree'), '')]
         parts = path.split('/')
@@ -31,7 +33,8 @@ class TreeHandler(IPythonHandler):
         if page_title:
             return page_title+'/'
         else:
-            return 'Home'
+            logging.info('title name PaddlePaddle Tutorial')
+            return 'PaddlePaddle Tutorial'
 
     @web.authenticated
     def get(self, path=''):

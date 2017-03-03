@@ -212,21 +212,55 @@
   </div>
 </noscript>
 
+<div>
+{% include "head.html" %}
+{% set
+    items = [("新手入门", "/notebooks/Untitled1.ipynb", "new"),
+             ("识别数字", "/notebooks/Untitled2.ipynb", "recognize_number"),
+             ("图像分类", "/notebooks/Untitled3.ipynb", "image_classification"),
+             ("词向量", "/notebooks/Untitled4.ipynb", "word_vector"),
+             ("情感分析", "/notebooks/Untitled5.ipynb", "emotion_analysis"),
+             ("语言角色标注", "/notebooks/Untitled6.ipynb", "role_labeling"),
+             ("机器翻译", "/notebooks/Untitled7.ipynb", "machine_translation"),
+             ("个性化推荐", "/notebooks/Untitled8.ipynb", "personal_recommendation")
+            ]
+%}
+<div id="page_left" class="page-left">
+  <div class="segments" style="border: none; margin: 0px;">
+      <div class="segment" style="padding-left: 20px; font-weight: bolder; border-radius: 0px; background: #ecedee;">
+          深度学习入门
+          <i id="new_chevron_up" class="fa fa-chevron-up" aria-hidden="true" style="float: right; cursor: pointer; color: #a7adbd;" title="收起"></i>
+          <i id="new_chevron_down" class="fa fa-chevron-down" aria-hidden="true" style="float: right; display: none; cursor: pointer; color: #a7adbd;" title="展开"></i>
+      </div>
+  </div>
+  <div id="contents" class="segments" style="border: none; margin: 0px;">
+      {% for item in items %}
+         <div id="{{ item[2] }}"class="segment div_hover"
+              style="padding-left: 50px; border-radius: 0px; background: #e4e6e9; border: none; cursor: pointer;"
+              url="{{ item[1] }}">
+           <!--<a  style="text-decoration: blink; color: #000000;" href="{{ item[1] }}">{{ item[0] }}</a>-->
+           <p  style="color: #000000;" >{{ item[0] }}</p>
+         </div>
+      {% endfor%}
+  </div>
+</div>
+
+<div class="page-right">
+<div style="padding-left: 20px;">
 <div id="header">
   <div id="header-container" class="container">
-  <div id="ipython_notebook" class="nav navbar-brand pull-left"><a href="{{default_url}}" title='dashboard'>{% block logo %}<img src='{{static_url("base/images/logo.png") }}' alt='Jupyter Notebook'/>{% endblock %}</a></div>
 
   {% block header_buttons %}
 
   {% block login_widget %}
 
-    <span id="login_widget">
+   <!-- <span id="login_widget">
       {% if logged_in %}
         <button id="logout" class="btn btn-sm navbar-btn">Logout</button>
       {% elif login_available and not logged_in %}
         <button id="login" class="btn btn-sm navbar-btn">Login</button>
       {% endif %}
-    </span>
+    </span> -->
 
   {% endblock %}
 
@@ -241,6 +275,7 @@
   {% endblock %}
 </div>
 
+
 <div id="site">
 {% block site %}
 {% endblock %}
@@ -251,6 +286,10 @@
 
 {% block script %}
 {% endblock %}
+</div>
+</div>
+
+</div>
 
 </body>
 

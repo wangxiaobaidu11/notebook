@@ -22,6 +22,32 @@ define([
         // On document ready, resize codemirror.
         $(document).ready(_handle_resize);
         events.on('resize-header.Page', _handle_resize);
+        $('i#new_chevron_up').click(function () {
+            // put away contents
+            $('div#contents').css('display','none');
+            // change_chevron_down display
+            $('i#new_chevron_up').css('display','none');
+            $('i#new_chevron_down').css('display','block');
+        });
+        $('i#new_chevron_down').click(function () {
+            // put away contents
+            $('div#contents').css('display','block');
+            // change_chevron_down display
+            $('i#new_chevron_up').css('display','block');
+            $('i#new_chevron_down').css('display','none');
+        });
+        $('.div_hover').hover(function() {
+            $(this).css('background','#597cf1');
+            $('p', this).css('color', '#ffffff');
+           }, function () {
+            $(this).css('background','#e4e6e9');
+            $('p', this).css('color', '#000000');
+        });
+
+        $('.div_hover').click(function() {
+            var url = $(this).attr("url")
+            window.location.href = url;
+        });
     };
 
     Page.prototype.show = function () {

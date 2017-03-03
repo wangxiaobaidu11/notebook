@@ -62,7 +62,7 @@ function buildConfig(appName) {
             filename: 'main.min.js',
             path: path.join(__dirname, 'notebook', 'static', appName, 'js', 'built')
         },
-        devtool: sourcemaps,
+        devtool: 'inline-source-map',
     });
 }
 

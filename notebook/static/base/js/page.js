@@ -89,7 +89,8 @@ define([
         // *not* have a target DOM node (i.e., it is not bubbling up). See
         // https://bugs.jquery.com/ticket/9841#comment:8
         if (!(e && e.target && e.target.tagName)) {
-            $('div#site').height($(window).height() - $('#header').height());
+            $('div#site').height($(window).height() - $('#header').height() - $('#nav-bar').height());
+            $('div#ipython-main-app').width($('div.page-right').width() - 100);
         }
     };
 

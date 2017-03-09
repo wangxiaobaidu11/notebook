@@ -60,6 +60,7 @@ import {ShortcutEditor} from 'notebook/js/shortcuteditor';
         this.events = options.events;
         this.keyboard_manager = options.keyboard_manager;
         this.contents = options.contents;
+        this.actions = options.actions;
         this.save_widget = options.save_widget;
         this.tooltip = new tooltip.Tooltip(this.events);
         this.ws_url = options.ws_url;
@@ -1219,6 +1220,7 @@ import {ShortcutEditor} from 'notebook/js/shortcuteditor';
                 config: this.config, 
                 keyboard_manager: this.keyboard_manager, 
                 notebook: this,
+                actions: this.actions,
                 tooltip: this.tooltip
             };
             switch(type) {

@@ -286,6 +286,7 @@ define([
             this.element.addClass('selected');
             this.element.removeClass('unselected');
             this.selected = true;
+            $(this.element).find(".code_buttons").css('display', 'block');
             // disable 'insert image' menu item (specific cell types will enable
             // it in their override select())
             this.notebook.set_insert_image_enabled(false);
@@ -310,6 +311,7 @@ define([
             this.element.addClass('unselected');
             this.element.removeClass('selected');
             this.selected = false;
+            $(this.element).find(".code_buttons").css('display', 'none');
             return true;
         } else {
             return false;

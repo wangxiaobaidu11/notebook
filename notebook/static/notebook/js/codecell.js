@@ -20,7 +20,8 @@ define([
     'notebook/js/celltoolbar',
     'codemirror/lib/codemirror',
     'codemirror/mode/python/python',
-    'notebook/js/codemirror-ipython'
+    'notebook/js/codemirror-ipython',
+    'notebook/js/actions'
 ], function(IPython,
     utils,
     keyboard,
@@ -31,7 +32,8 @@ define([
     celltoolbar,
     CodeMirror,
     cmpython,
-    cmip
+    cmip,
+    ActionHandler
     ) {
     "use strict";
     
@@ -107,6 +109,8 @@ define([
         this.last_msg_id = null;
         this.completer = null;
 
+        this.actions = options.actions;
+
         Cell.apply(this,[{
             config: options.config, 
             keyboard_manager: options.keyboard_manager, 
@@ -153,6 +157,58 @@ define([
         var cell =  $('<div></div>').addClass('cell code_cell');
         cell.attr('tabindex','2');
 
+        var action_name;
+        // every code cell has button bar
+        var buttons = $('<div></div>').addClass('code_buttons');
+        buttons.css('display', 'none');
+
+        // execution button
+        var executionbutton = $('<i></i>').addClass('fa fa-play code_cell_button');
+        executionbutton.attr('title', 'run');
+        action_name = 'jupyter-notebook:run-cell';
+        executionbutton.attr('data-jupyter-action', action_name);
+        var exec = function() {
+            that.actions.call(action_name);
+        };
+        executionbutton.click(exec);
+
+        // copy button
+        var copybutton = $('<i></i>').addClass('fa fa-files-o code_cell_button');
+        copybutton.attr('title', 'copy to clipboard');
+
+        // full screen button
+        var fullscreenbutton = $('<i></i>').addClass('fa fa-arrows-alt code_cell_button');
+        fullscreenbutton.attr('title', 'full screen');
+        // change codeMirror size
+        var changeCodeMirrorSize = function() {
+            if (that.element.find('.fa-arrows-alt').length === 0) {
+               // min
+               that.element.find('div.input_area').removeClass('full_screen');
+               var width = $(window).width() - 10;
+               var elWrapper = $(that.code_mirror.getWrapperElement());
+               elWrapper.width('');
+               elWrapper.height('');
+               that.code_mirror.refresh();
+               that.element.find('i.fa.fa-compress.code_cell_button')
+                   .removeClass('fa-compress').addClass('fa-arrows-alt').attr('title', 'full screen');
+            } else {
+               // div input_area add full screen class
+               that.element.find('div.input_area').addClass('full_screen');
+               var width = $(window).width() - 10;
+               var height = $(window).height() - 10;
+               var elWrapper = $(that.code_mirror.getWrapperElement());
+               elWrapper.width(width);
+               elWrapper.height(height);
+               that.code_mirror.refresh();
+               // max button change into min button
+               that.element.find('i.fa.fa-arrows-alt.code_cell_button')
+                   .removeClass('fa-arrows-alt').addClass('fa-compress').attr('title', 'min screen');
+            }
+        };
+        fullscreenbutton.click(changeCodeMirrorSize);
+        buttons.append(executionbutton).append(copybutton).append(fullscreenbutton);
+
+
         var input = $('<div></div>').addClass('input');
         this.input = input;
         var prompt = $('<div/>').addClass('prompt input_prompt');
@@ -162,6 +218,7 @@ define([
             notebook: this.notebook});
         inner_cell.append(this.celltoolbar.element);
         var input_area = $('<div/>').addClass('input_area');
+        input_area.append(buttons);
         this.code_mirror = new CodeMirror(input_area.get(0), this._options.cm_config);
         // In case of bugs that put the keyboard manager into an inconsistent state,
         // ensure KM is enabled when CodeMirror is focused:

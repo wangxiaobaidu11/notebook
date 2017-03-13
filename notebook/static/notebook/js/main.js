@@ -98,7 +98,7 @@ require([
     common_config.load();
 
     // Instantiate the main objects
-    
+
     var page = new page.Page();
     var pager = new pager.Pager('div#pager', {
         events: events});

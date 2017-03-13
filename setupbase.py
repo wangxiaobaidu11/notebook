@@ -148,6 +148,8 @@ def find_package_data():
         pjoin(components, "requirejs", "require.js"),
         pjoin(components, "underscore", "underscore-min.js"),
         pjoin(components, "text-encoding", "lib", "encoding.js"),
+        pjoin(components, "zeroclipboard", "dist", "ZeroClipboard.min.js"),
+        pjoin(components, "zeroclipboard", "dist", "ZeroClipboard.swf"),
     ])
 
     # Ship all of Codemirror's CSS and JS

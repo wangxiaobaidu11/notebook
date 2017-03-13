@@ -21,7 +21,7 @@ define([
     'codemirror/lib/codemirror',
     'codemirror/mode/python/python',
     'notebook/js/codemirror-ipython',
-    'notebook/js/actions'
+    'zeroclipboard/dist/ZeroClipboard.min'
 ], function(IPython,
     utils,
     keyboard,
@@ -33,10 +33,16 @@ define([
     CodeMirror,
     cmpython,
     cmip,
-    ActionHandler
+    ZeroClipboard
     ) {
     "use strict";
-    
+
+    var config = ZeroClipboard.config({
+        forceHandCursor: true,
+        swfPath: '/static/components/zeroclipboard/dist/ZeroClipboard.swf'
+    });
+    // var client = new ZeroClipboard();
+
     var Cell = cell.Cell;
 
     /* local util for codemirror */
@@ -175,6 +181,30 @@ define([
         // copy button
         var copybutton = $('<i></i>').addClass('fa fa-files-o code_cell_button');
         copybutton.attr('title', 'copy to clipboard');
+
+        // var copytoclipboard = function() {
+        //    var codevalue = that.code_mirror.getValue();
+        //    client.setText(codevalue);
+        //    client.emit('copy');
+        // };
+        // copybutton.click(copytoclipboard);
+
+
+        // client.on('copy', function (event) {
+        //       var clipboard = event.clipboardData;
+        //       clipboard.setData( 'text/plain', client.getData('text/plain'));
+        // });
+
+        var client = new ZeroClipboard(copybutton);
+        client.on( "copy", function (event) {
+           var codevalue = that.code_mirror.getValue();
+           var clipboard = event.clipboardData;
+           clipboard.setData( "text/plain", codevalue);
+        });
+       client.on("aftercopy", function(event) {
+           alert("Copy succssfully!");
+       });
+
 
         // full screen button
         var fullscreenbutton = $('<i></i>').addClass('fa fa-arrows-alt code_cell_button');

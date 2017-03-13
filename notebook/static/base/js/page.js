@@ -7,8 +7,26 @@ define([
     "use strict";
 
     var Page = function () {
+        // get url
+        var version = getUrlParam('version');
+        if (version == 'cn') {
+            $('a#tutorial-language-cn').css('display','none');
+            $('a#tutorial-language-en').css('display','block');
+        } else {
+            $('a#tutorial-language-cn').css('display','block');
+            $('a#tutorial-language-en').css('display','none');
+        }
         this.bind_events();
+
     };
+
+     var getUrlParam = function(name) {
+         var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
+         var r = window.location.search.substr(1).match(reg);
+         if (r != null)
+            return unescape(r[2]);
+         return null;
+     }
 
     Page.prototype.bind_events = function () {
         // resize site on:
@@ -18,7 +36,6 @@ define([
         var _handle_resize = $.proxy(this._resize_site, this);
         
         $(window).resize(_handle_resize);
-
         // On document ready, resize codemirror.
         $(document).ready(_handle_resize);
         events.on('resize-header.Page', _handle_resize);
@@ -45,7 +62,13 @@ define([
         });
 
         $('.div_hover').click(function() {
-            var url = $(this).attr("url")
+            var version = getUrlParam('version');
+            var url = '';
+            if (version == 'cn') {
+              url = $(this).attr("url-cn")
+            } else {
+              url = $(this).attr("url-en")
+            }
             window.location.href = url;
         });
     };

@@ -51,7 +51,11 @@ data-notebook-path="{{notebook_path | urlencode}}"
 {% endblock headercontainer %}
 
 {% block header %}
-<div id="menubar-container" class="container">
+<div style="position: fixed; top: 62px; right: 80px;">
+    <i id="tool-down" class="fa fa-chevron-down" aria-hidden="true" style="cursor: pointer; color: #a7adbd;" title="unfold"></i>
+    <i id="tool-up" class="fa fa-chevron-up" aria-hidden="true" style="display: none; cursor: pointer; color: #a7adbd;" title="fold"></i>
+</div>
+<div id="menubar-container" class="container" style="display: none">
 <div id="menubar">
     <div id="menus" class="navbar navbar-default" role="navigation">
         <div class="container-fluid">

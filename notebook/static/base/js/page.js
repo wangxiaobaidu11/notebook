@@ -34,7 +34,11 @@ define([
         // - header change
         // - page load
         var _handle_resize = $.proxy(this._resize_site, this);
-        
+        var targetStr1 = 'README.en.ipynb';
+        var startStr = '/notebooks/paddle-book/book/';
+        var targetStr2 = 'README.ipynb';
+        var defaultUrl = '/notebooks/paddle-book/book/01.fit_a_line/README.ipynb?version=cn';
+        var defaultEnUrl = '/notebooks/paddle-book/book/01.fit_a_line/README.en.ipynb';
         $(window).resize(_handle_resize);
         // On document ready, resize codemirror.
         $(document).ready(_handle_resize);
@@ -71,6 +75,30 @@ define([
             }
             window.location.href = url;
         });
+
+        $('#tutorial-language-cn').click(function() {
+            var currentUrl = window.location.pathname;
+            var endStrlocation = currentUrl.length - targetStr1.length;
+            if (currentUrl.indexOf(startStr) == 0
+                && endStrlocation >= 0 && currentUrl.lastIndexOf(targetStr1) == endStrlocation) {
+                  window.location.href = currentUrl.replace(targetStr1, targetStr2) + "?version=cn";
+            } else {
+                  window.location.href  = defaultUrl;
+            }
+        });
+
+        $('#tutorial-language-en').click(function() {
+            var currentUrl = window.location.pathname;
+            var endStrlocation = currentUrl.length - targetStr2.length;
+            if (currentUrl.indexOf(startStr) == 0
+                && endStrlocation >= 0 && currentUrl.lastIndexOf(targetStr2) == endStrlocation) {
+                  window.location.href = currentUrl.replace(targetStr2, targetStr1);
+            } else {
+                  window.location.href = defaultEnUrl;
+            }
+        });
+
+
     };
 
     Page.prototype.show = function () {

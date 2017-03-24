@@ -250,6 +250,17 @@ import {ShortcutEditor} from 'notebook/js/shortcuteditor';
     Notebook.prototype.bind_events = function () {
         var that = this;
 
+        $("#tool-down").click(function() {
+            $("#menubar-container").css("display", "block");
+            $("#tool-up").css("display", "block");
+            $("#tool-down").css("display", "none");
+        });
+
+        $("#tool-up").click(function() {
+            $("#menubar-container").css("display", "none");
+            $("#tool-up").css("display", "none");
+            $("#tool-down").css("display", "block");
+        });
 
         this.events.on('set_next_input.Notebook', function (event, data) {
             if (data.replace) {
